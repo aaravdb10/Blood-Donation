@@ -1,0 +1,580 @@
+/* Custom Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Animation Classes */
+.animate-fade-in {
+    animation: fadeIn 1s ease-in;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+}
+
+.animate-slide-down {
+    animation: slideDown 0.5s ease-out;
+}
+
+.animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Hover Effects */
+.hover-scale {
+    transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-primary rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary-dark;
+}
+
+/* Form Styles */
+.form-input {
+    @apply w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1);
+}
+
+.form-label {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
+    transition: color 0.3s ease;
+}
+
+.form-group:focus-within .form-label {
+    color: #EF4444; /* primary color */
+}
+
+.form-error {
+    @apply text-red-600 text-sm mt-1;
+}
+
+/* Button Styles */
+.btn-primary {
+    @apply bg-primary text-white px-6 py-3 rounded-md hover:bg-primary-dark transition-colors;
+}
+
+.btn-secondary {
+    @apply bg-white text-primary border-2 border-primary px-6 py-3 rounded-md hover:bg-primary-light transition-colors;
+}
+
+.btn-outline {
+    @apply border border-gray-300 text-gray-700 px-6 py-2 rounded-md hover:border-primary hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+}
+
+/* Card Styles */
+.card {
+    @apply bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow;
+}
+
+/* Badge Styles */
+.badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.badge-primary {
+    @apply bg-primary-light text-primary;
+}
+
+.badge-success {
+    @apply bg-green-100 text-green-800;
+}
+
+.badge-warning {
+    @apply bg-yellow-100 text-yellow-800;
+}
+
+.badge-urgent {
+    @apply bg-red-100 text-red-800;
+}
+
+/* Stats Card */
+.stats-card {
+    @apply bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md text-center transition-all duration-300 hover:shadow-lg;
+}
+
+.stats-number {
+    @apply text-4xl font-bold text-primary mb-2;
+}
+
+.stats-label {
+    @apply text-gray-600 dark:text-gray-300;
+}
+
+/* Timeline Steps */
+.timeline-step {
+    @apply flex items-center;
+}
+
+.timeline-icon {
+    @apply w-12 h-12 bg-primary-light dark:bg-gray-700 rounded-full flex items-center justify-center text-primary;
+}
+
+.timeline-connector {
+    @apply h-1 bg-primary-light dark:bg-gray-700 rounded-full my-4;
+}
+
+/* Testimonial Card */
+.testimonial-card {
+    @apply bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow;
+}
+
+.testimonial-quote {
+    @apply text-gray-600 italic mb-4;
+}
+
+.testimonial-author {
+    @apply flex items-center;
+}
+
+.testimonial-avatar {
+    @apply w-10 h-10 rounded-full bg-gray-200;
+}
+
+.testimonial-info {
+    @apply ml-3;
+}
+
+/* Blood Type Badge */
+.blood-type {
+    @apply inline-flex items-center justify-center w-12 h-12 rounded-full border-2 border-primary text-primary font-bold;
+}
+
+/* Responsive Utilities */
+@media (max-width: 768px) {
+    .mobile-menu {
+        @apply fixed inset-0 bg-white z-50 transform transition-transform duration-300;
+    }
+
+    .mobile-menu.open {
+        @apply translate-x-0;
+    }
+
+    .mobile-menu.closed {
+        @apply translate-x-full;
+    }
+}
+
+/* Dark Mode Transitions */
+.dark-mode-transition {
+    @apply transition-colors duration-300;
+}
+
+/* Interactive Elements */
+.interactive-number {
+    @apply transition-all duration-300 hover:scale-110 cursor-pointer;
+}
+
+/* Scroll Animations */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out;
+}
+
+.scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Mobile Menu */
+#mobile-menu {
+    @apply transition-all duration-300 ease-in-out;
+}
+
+#mobile-menu.hidden {
+    @apply max-h-0 overflow-hidden;
+}
+
+#mobile-menu:not(.hidden) {
+    @apply max-h-screen;
+}
+
+/* Base styles */
+:root {
+    --primary: #EF4444;
+    --primary-dark: #DC2626;
+    --primary-light: #FEE2E2;
+}
+
+/* Responsive Typography */
+html {
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+/* Mobile Navigation */
+.mobile-nav {
+    position: fixed;
+    width: 100%;
+    z-index: 50;
+}
+
+.mobile-menu {
+    transform-origin: top;
+    transition: all 0.3s ease-in-out;
+}
+
+.animate-slide-down {
+    animation: slideDown 0.3s ease-in-out;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Dropdown Menus */
+.dropdown-content {
+    transform-origin: top;
+    transition: all 0.2s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.dropdown-content.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Responsive Grid */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+/* Enhanced Animations */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.slide-up {
+    animation: slideUp 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Images */
+.responsive-img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Card Hover Effects */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Animations */
+.btn {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: -100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: 0.5s;
+}
+
+.btn:hover::after {
+    left: 100%;
+}
+
+/* Responsive Tables */
+.responsive-table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Form Elements */
+.form-input {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+/* Loading States */
+.loading {
+    position: relative;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Media Queries */
+@media (max-width: 640px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+
+    .hide-mobile {
+        display: none;
+    }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+.focus-visible:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Contact Form Styles */
+.form-input {
+    @apply w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1);
+}
+
+.form-label {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
+    transition: color 0.3s ease;
+}
+
+.form-group:focus-within .form-label {
+    color: #EF4444; /* primary color */
+}
+
+/* Submit Button Animation */
+.btn-submit {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-submit::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.btn-submit:hover::after {
+    width: 300%;
+    height: 300%;
+}
+
+/* Form Success/Error Messages */
+.form-message {
+    @apply mt-4 p-4 rounded-md;
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.form-message.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.form-message.success {
+    @apply bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100;
+}
+
+.form-message.error {
+    @apply bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 0.8s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Form Field Validation Styles */
+.form-input.error {
+    @apply border-red-500 dark:border-red-400;
+}
+
+.form-input.success {
+    @apply border-green-500 dark:border-green-400;
+}
+
+.validation-message {
+    @apply text-sm mt-1;
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.validation-message.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.validation-message.error {
+    @apply text-red-500 dark:text-red-400;
+}
+
+.validation-message.success {
+    @apply text-green-500 dark:text-green-400;
+}
+
+/* Form Group Hover Effects */
+.form-group {
+    position: relative;
+}
+
+.form-group::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #EF4444;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.form-group:focus-within::after {
+    width: 100%;
+} 

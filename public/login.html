@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - LifeFlow</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#EF4444',
+                        'primary-dark': '#DC2626',
+                        'primary-light': '#FEE2E2',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <!-- Dark Mode Toggle -->
+    <button id="darkModeToggle" class="fixed bottom-4 right-4 p-3 rounded-full bg-primary text-white shadow-lg hover:bg-primary-dark transition-colors z-50">
+        <i class="fas fa-moon dark:hidden"></i>
+        <i class="fas fa-sun hidden dark:block"></i>
+    </button>
+
+    <!-- Logo -->
+    <div class="fixed top-4 left-4">
+        <a href="/" class="flex items-center">
+            <i class="fas fa-tint text-primary text-2xl"></i>
+            <span class="ml-2 text-xl font-semibold dark:text-white">LifeFlow</span>
+        </a>
+    </div>
+
+    <!-- Login Container -->
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 animate-fade-in">
+            <h1 class="text-2xl font-bold text-center mb-2 dark:text-white">Welcome back</h1>
+            <p class="text-gray-600 dark:text-gray-300 text-center mb-8">Sign in to your account to continue</p>
+
+            <!-- Login Tabs -->
+            <div class="flex mb-8 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+                <button class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 active-tab" data-tab="donor">
+                    <i class="fas fa-user mr-2"></i>Donor
+                </button>
+                <button class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200" data-tab="hospital">
+                    <i class="fas fa-hospital mr-2"></i>Hospital
+                </button>
+                <button class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200" data-tab="admin">
+                    <i class="fas fa-shield-alt mr-2"></i>Admin
+                </button>
+            </div>
+
+            <!-- Login Forms -->
+            <div id="donor-form" class="tab-content active animate-fade-in">
+                <form class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                        <input type="email" placeholder="john.doe@example.com" class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                            <a href="/forgot-password" class="text-sm text-primary hover:text-primary-dark">Forgot password?</a>
+                        </div>
+                        <input type="password" class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember" class="rounded border-gray-300 text-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700">
+                        <label for="remember" class="ml-2 text-sm text-gray-700 dark:text-gray-300">Remember me</label>
+                    </div>
+                    <button type="submit" class="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary-dark transition-colors duration-200">Sign In</button>
+                </form>
+            </div>
+
+            <div id="hospital-form" class="tab-content hidden animate-fade-in">
+                <form class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                        <input type="email" placeholder="hospital@example.com" class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                            <a href="/forgot-password" class="text-sm text-primary hover:text-primary-dark">Forgot password?</a>
+                        </div>
+                        <input type="password" class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember-hospital" class="rounded border-gray-300 text-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700">
+                        <label for="remember-hospital" class="ml-2 text-sm text-gray-700 dark:text-gray-300">Remember me</label>
+                    </div>
+                    <button type="submit" class="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary-dark transition-colors duration-200">Sign In</button>
+                </form>
+            </div>
+
+            <div id="admin-form" class="tab-content hidden animate-fade-in">
+                <form class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                        <input type="email" placeholder="admin@lifeflow.com" class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                            <a href="/forgot-password" class="text-sm text-primary hover:text-primary-dark">Forgot password?</a>
+                        </div>
+                        <input type="password" class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember-admin" class="rounded border-gray-300 text-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700">
+                        <label for="remember-admin" class="ml-2 text-sm text-gray-700 dark:text-gray-300">Remember me</label>
+                    </div>
+                    <button type="submit" class="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary-dark transition-colors duration-200">Sign In</button>
+                </form>
+            </div>
+
+            <p class="mt-6 text-center text-sm text-gray-600 dark:text-gray-300">
+                Don't have an account? 
+                <a href="/register" class="text-primary hover:text-primary-dark font-medium">Register</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Dark Mode Script -->
+    <script>
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const html = document.documentElement;
+
+        // Check for saved theme preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
+        }
+
+        // Toggle dark mode
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        });
+
+        // Tab Switching
+        const tabs = document.querySelectorAll('[data-tab]');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                tabs.forEach(t => {
+                    t.classList.remove('bg-white', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white', 'shadow-sm');
+                    t.classList.add('text-gray-500', 'dark:text-gray-400', 'hover:text-gray-700', 'dark:hover:text-gray-200');
+                });
+
+                // Add active class to clicked tab
+                tab.classList.add('bg-white', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white', 'shadow-sm');
+                tab.classList.remove('text-gray-500', 'dark:text-gray-400', 'hover:text-gray-700', 'dark:hover:text-gray-200');
+
+                // Hide all tab contents
+                tabContents.forEach(content => {
+                    content.classList.add('hidden');
+                    content.classList.remove('active');
+                });
+
+                // Show selected tab content
+                const selectedContent = document.getElementById(`${tab.dataset.tab}-form`);
+                selectedContent.classList.remove('hidden');
+                selectedContent.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html> 

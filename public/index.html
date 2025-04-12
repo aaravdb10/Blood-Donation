@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en" class="light scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeFlow - Blood Donation Platform</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#EF4444',
+                        'primary-dark': '#DC2626',
+                        'primary-light': '#FEE2E2',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 1s ease-in',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Custom JS -->
+    <script src="js/main.js" type="module"></script>
+    <script src="js/auth.js" type="module"></script>
+    <script src="js/blood.js" type="module"></script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <!-- Dark Mode Toggle -->
+    <button id="darkModeToggle" class="fixed bottom-4 right-4 p-3 rounded-full bg-primary text-white shadow-lg hover:bg-primary-dark transition-colors z-50">
+        <i class="fas fa-moon dark:hidden"></i>
+        <i class="fas fa-sun hidden dark:block"></i>
+    </button>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center">
+                        <i class="fas fa-tint text-primary text-2xl"></i>
+                        <span class="ml-2 text-xl font-semibold dark:text-white">LifeFlow</span>
+                    </a>
+                    <!-- Desktop Menu -->
+                    <div class="hidden md:flex md:ml-10">
+                        <a href="#about" class="px-3 py-2 text-gray-700 hover:text-primary dark:text-gray-300">About</a>
+                        <a href="#donation" class="px-3 py-2 text-gray-700 hover:text-primary dark:text-gray-300">Donation</a>
+                        <a href="#why-donate" class="px-3 py-2 text-gray-700 hover:text-primary dark:text-gray-300">Why Donate</a>
+                        <a href="#education" class="px-3 py-2 text-gray-700 hover:text-primary dark:text-gray-300">Education</a>
+                        <a href="#faq" class="px-3 py-2 text-gray-700 hover:text-primary dark:text-gray-300">FAQ</a>
+                        <a href="#contact" class="px-3 py-2 text-gray-700 hover:text-primary dark:text-gray-300">Contact</a>
+                    </div>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuButton" class="text-gray-700 hover:text-primary dark:text-gray-300">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+                <div class="hidden md:flex items-center">
+                    <button onclick="showLoginForm()" class="px-4 py-2 text-gray-700 hover:text-primary dark:text-gray-300">Login</button>
+                    <button onclick="showRegisterForm()" class="ml-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark">Register</button>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a href="#about" class="block px-3 py-2 text-gray-700 hover:text-primary dark:text-gray-300">About</a>
+                    <a href="#donation" class="block px-3 py-2 text-gray-700 hover:text-primary dark:text-gray-300">Donation</a>
+                    <a href="#why-donate" class="block px-3 py-2 text-gray-700 hover:text-primary dark:text-gray-300">Why Donate</a>
+                    <a href="#education" class="block px-3 py-2 text-gray-700 hover:text-primary dark:text-gray-300">Education</a>
+                    <a href="#faq" class="block px-3 py-2 text-gray-700 hover:text-primary dark:text-gray-300">FAQ</a>
+                    <a href="#contact" class="block px-3 py-2 text-gray-700 hover:text-primary dark:text-gray-300">Contact</a>
+                    <div class="mt-4 space-y-2">
+                        <button onclick="showLoginForm()" class="block w-full px-3 py-2 text-gray-700 hover:text-primary dark:text-gray-300">Login</button>
+                        <button onclick="showRegisterForm()" class="block w-full px-3 py-2 bg-primary text-white rounded-md hover:bg-primary-dark">Register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <!-- Login Form -->
+        <div id="loginForm" class="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 animate-fade-in hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold dark:text-white">Login</h2>
+                <button onclick="closeAuthModal()" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Login Tabs -->
+            <div class="flex mb-8 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+                <button class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 active-tab" data-tab="donor-login">
+                    <i class="fas fa-user mr-2"></i>Donor
+                </button>
+                <button class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200" data-tab="hospital-login">
+                    <i class="fas fa-hospital mr-2"></i>Hospital
+                </button>
+                <button class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200" data-tab="admin-login">
+                    <i class="fas fa-shield-alt mr-2"></i>Admin
+                </button>
+            </div>
+
+            <form class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                    <input type="email" class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white">
+                </div>
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                        <a href="#" class="text-sm text-primary hover:text-primary-dark">Forgot password?</a>
+                    </div>
+                    <input type="password" class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white">
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="remember" class="rounded border-gray-300 text-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700">
+                    <label for="remember" class="ml-2 text-sm text-gray-700 dark:text-gray-300">Remember me</label>
+                </div>
+                <button type="submit" class="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary-dark transition-colors duration-200">Sign In</button>
+            </form>
+
+            <p class="mt-6 text-center text-sm text-gray-600 dark:text-gray-300">
+                Don't have an account? 
+                <button onclick="switchToRegister()" class="text-primary hover:text-primary-dark font-medium">Register</button>
+            </p>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerForm" class="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 animate-fade-in hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold dark:text-white">Create Account</h2>
+                <button onclick="closeAuthModal()" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Register Tabs -->
+            <div class="flex mb-8 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+                <button class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 active-tab" data-tab="donor-register">
+                    <i class="fas fa-user mr-2"></i>Donor
+                </button>
+                <button class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200" data-tab="hospital-register">
+                    <i class="fas fa-hospital mr-2"></i>Hospital
+                </button>
+            </div>
+
+            <form class="space-y-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">First Name</label>
+                        <input type="text" class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Last Name</label>
+                        <input type="text" class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                    <input type="email" class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
+                    <input type="password" class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Confirm Password</label>
+                    <input type="password" class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Blood Type</label>
+                    <select class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white">
+                        <option value="">Select Blood Type</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="terms" class="rounded border-gray-300 text-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700">
+                    <label for="terms" class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                        I agree to the <a href="#" class="text-primary hover:text-primary-dark">Terms of Service</a> and <a href="#" class="text-primary hover:text-primary-dark">Privacy Policy</a>
+                    </label>
+                </div>
+                <button type="submit" class="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary-dark transition-colors duration-200">Create Account</button>
+            </form>
+
+            <p class="mt-6 text-center text-sm text-gray-600 dark:text-gray-300">
+                Already have an account? 
+                <button onclick="switchToLogin()" class="text-primary hover:text-primary-dark font-medium">Sign in</button>
+            </p>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-12 bg-pink-50 dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
+                    Donate Blood, <span class="text-primary">Save Lives</span>
+                </h1>
+                <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">
+                    Your donation can save up to three lives. Join our community of donors and make a difference today.
+                </p>
+                <div class="flex justify-center gap-4">
+                    <a href="register.html" class="px-6 py-3 bg-primary text-white rounded-md hover:bg-primary-dark transition-colors">
+                        Become a Donor →
+                    </a>
+                    <a href="request-blood.html" class="px-6 py-3 bg-white text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
+                        Request Blood
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Statistics -->
+    <section class="py-12 bg-white dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-tint text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">50,842</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Total Donations</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-heart text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">1,52,526</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Lives Saved</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-hospital text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">12k+</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Donation Centers</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-16 bg-white dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <h2 class="text-4xl font-bold text-gray-900 dark:text-white">About Us</h2>
+                    <p class="text-lg text-gray-600 dark:text-gray-300">
+                        LifeFlow is a comprehensive blood donation management system dedicated to connecting donors with those in need. Our mission is to ensure that no one suffers due to blood shortage.
+                    </p>
+                    <p class="text-lg text-gray-600 dark:text-gray-300">
+                        We work with hospitals, blood banks, and donors to create a seamless ecosystem that makes blood donation accessible, efficient, and rewarding.
+                    </p>
+                    <p class="text-lg text-gray-600 dark:text-gray-300">
+                        Founded in 2020, LifeFlow has facilitated over 50,000 donations and helped save more than 150,000 lives. Our network includes 200+ hospitals and blood banks across the country, making it easier for donors to find donation centers near them.
+                    </p>
+                    <a href="/about" class="inline-flex items-center text-lg font-medium text-gray-900 dark:text-white hover:text-primary">
+                        Learn More About Our Mission
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="relative h-96 rounded-lg overflow-hidden">
+                    <div class="bg-gray-200 dark:bg-gray-700 w-full h-full flex items-center justify-center">
+                        <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="mt-16">
+        <!-- Hero Section -->
+        <!-- <section class="bg-primary-light dark:bg-gray-800 py-20 transition-colors duration-300">
+            <div class="container mx-auto px-4">
+                <div class="text-center max-w-3xl mx-auto animate-fade-in">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 dark:text-white">
+                        Donate Blood, <span class="text-primary">Save Lives</span>
+                    </h1>
+                    <p class="text-gray-600 dark:text-gray-300 text-lg mb-8">
+                        Your donation can save up to three lives. Join our community of donors
+                        and make a difference today.
+                    </p>
+                    <div class="flex justify-center space-x-4">
+                        <a href="register.html" class="btn-primary">
+                            Become a Donor →
+                        </a>
+                        <a href="request.html" class="btn-secondary">
+                            Request Blood
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+        <!-- Statistics Section -->
+        <!-- <section class="bg-white dark:bg-gray-900 py-16">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center animate-on-scroll">
+                        <h3 class="stats-number text-4xl font-bold text-red-500 dark:text-red-400 mb-2" data-target="50000">0</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Total Donations</p>
+                    </div>
+                    <div class="text-center animate-on-scroll">
+                        <h3 class="stats-number text-4xl font-bold text-red-500 dark:text-red-400 mb-2" data-target="150000">0</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Lives Saved</p>
+                    </div>
+                    <div class="text-center animate-on-scroll">
+                        <h3 class="stats-number text-4xl font-bold text-red-500 dark:text-red-400 mb-2" data-target="100">0</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Donation Centers</p>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+        <!-- How It Works -->
+        <section class="py-16 bg-gray-50 dark:bg-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-bold text-center text-gray-900 dark:text-white mb-16">How It Works</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-7 gap-8">
+                    <!-- Register -->
+                    <div class="text-center how-it-works-step">
+                        <div class="w-16 h-16 mx-auto bg-white dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-user text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Register</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm">Create your donor profile with your blood type and contact information.</p>
+                        <div class="mt-4 text-right">
+                            <i class="fas fa-arrow-right text-primary"></i>
+                        </div>
+                    </div>
+
+                    <!-- Eligibility Check -->
+                    <div class="text-center how-it-works-step">
+                        <div class="w-16 h-16 mx-auto bg-white dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-clipboard-check text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Eligibility Check</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm">Complete a health questionnaire to ensure you're eligible to donate.</p>
+                        <div class="mt-4 text-right">
+                            <i class="fas fa-arrow-right text-primary"></i>
+                        </div>
+                    </div>
+
+                    <!-- Schedule -->
+                    <div class="text-center how-it-works-step">
+                        <div class="w-16 h-16 mx-auto bg-white dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-calendar text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Schedule</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm">Book an appointment at your preferred donation center and time.</p>
+                        <div class="mt-4 text-right">
+                            <i class="fas fa-arrow-right text-primary"></i>
+                        </div>
+                    </div>
+
+                    <!-- Pre-Donation -->
+                    <div class="text-center how-it-works-step">
+                        <div class="w-16 h-16 mx-auto bg-white dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-clock text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Pre-Donation</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm">Arrive at the center, register, and undergo a mini health check.</p>
+                        <div class="mt-4 text-right">
+                            <i class="fas fa-arrow-right text-primary"></i>
+                        </div>
+                    </div>
+
+                    <!-- Donate -->
+                    <div class="text-center how-it-works-step">
+                        <div class="w-16 h-16 mx-auto bg-white dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-tint text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Donate</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm">Complete your donation, which typically takes about 10-15 minutes.</p>
+                        <div class="mt-4 text-right">
+                            <i class="fas fa-arrow-right text-primary"></i>
+                        </div>
+                    </div>
+
+                    <!-- Recovery -->
+                    <div class="text-center how-it-works-step">
+                        <div class="w-16 h-16 mx-auto bg-white dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-check-circle text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Recovery</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm">Rest and enjoy refreshments for 15 minutes after your donation.</p>
+                        <div class="mt-4 text-right">
+                            <i class="fas fa-arrow-right text-primary"></i>
+                        </div>
+                    </div>
+
+                    <!-- Save Lives -->
+                    <div class="text-center how-it-works-step">
+                        <div class="w-16 h-16 mx-auto bg-white dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-heart text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Save Lives</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm">Your donation helps save lives and contributes to community health.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Eligibility Criteria -->
+        <section class="py-16 bg-white dark:bg-gray-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">Eligibility Criteria</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Age & Weight -->
+                    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-sm">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Age & Weight</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start text-gray-600 dark:text-gray-400">
+                                <span class="mr-2">•</span>
+                                Must be at least 18 years old
+                            </li>
+                            <li class="flex items-start text-gray-600 dark:text-gray-400">
+                                <span class="mr-2">•</span>
+                                Weight at least 110 lbs (50 kg)
+                            </li>
+                            <li class="flex items-start text-gray-600 dark:text-gray-400">
+                                <span class="mr-2">•</span>
+                                No upper age limit for regular donors
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Health Requirements -->
+                    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-sm">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Health Requirements</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start text-gray-600 dark:text-gray-400">
+                                <span class="mr-2">•</span>
+                                Generally good health
+                            </li>
+                            <li class="flex items-start text-gray-600 dark:text-gray-400">
+                                <span class="mr-2">•</span>
+                                No fever or illness on donation day
+                            </li>
+                            <li class="flex items-start text-gray-600 dark:text-gray-400">
+                                <span class="mr-2">•</span>
+                                Adequate hemoglobin levels
+                            </li>
+                            <li class="flex items-start text-gray-600 dark:text-gray-400">
+                                <span class="mr-2">•</span>
+                                Normal blood pressure and pulse
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Waiting Periods -->
+                    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-sm">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Waiting Periods</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start text-gray-600 dark:text-gray-400">
+                                <span class="mr-2">•</span>
+                                56 days between whole blood donations
+                            </li>
+                            <li class="flex items-start text-gray-600 dark:text-gray-400">
+                                <span class="mr-2">•</span>
+                                112 days after double red cell donation
+                            </li>
+                            <li class="flex items-start text-gray-600 dark:text-gray-400">
+                                <span class="mr-2">•</span>
+                                7 days after plasma donation
+                            </li>
+                            <li class="flex items-start text-gray-600 dark:text-gray-400">
+                                <span class="mr-2">•</span>
+                                Varies after certain medications or vaccinations
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="text-center mt-12">
+                    <a href="/eligibility-check" class="inline-flex items-center px-6 py-3 bg-primary text-white rounded-md hover:bg-primary-dark transition-colors">
+                        Check Your Eligibility
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Donate Section -->
+        <section id="why-donate" class="py-16 bg-gray-50 dark:bg-gray-900">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-12 dark:text-white">Why Donate Blood?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="card animate-on-scroll">
+                        <h3 class="text-xl font-semibold mb-4 dark:text-white">Save Lives</h3>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            A single donation can save up to 3 lives and help patients undergoing surgery, cancer treatment, and trauma care.
+                        </p>
+                    </div>
+                    <div class="card animate-on-scroll">
+                        <h3 class="text-xl font-semibold mb-4 dark:text-white">Health Benefits</h3>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            Regular blood donation can reduce the risk of heart disease and reveal potential health issues through the mini check-up.
+                        </p>
+                    </div>
+                    <div class="card animate-on-scroll">
+                        <h3 class="text-xl font-semibold mb-4 dark:text-white">Community Impact</h3>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            Your donation strengthens the community's health infrastructure and ensures blood is available in emergencies.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blood Usage Statistics -->
+        <section class="py-16 bg-white dark:bg-gray-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">Blood Usage Statistics</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Blood Usage Chart -->
+                    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-sm">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Blood Usage by Medical Need</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-gray-600 dark:text-gray-300">Cancer Treatment</span>
+                                    <span class="text-gray-600 dark:text-gray-300">34%</span>
+                                </div>
+                                <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded">
+                                    <div class="h-2 bg-primary rounded" style="width: 34%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-gray-600 dark:text-gray-300">Trauma & Accidents</span>
+                                    <span class="text-gray-600 dark:text-gray-300">25%</span>
+                                </div>
+                                <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded">
+                                    <div class="h-2 bg-primary rounded" style="width: 25%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-gray-600 dark:text-gray-300">Surgery</span>
+                                    <span class="text-gray-600 dark:text-gray-300">18%</span>
+                                </div>
+                                <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded">
+                                    <div class="h-2 bg-primary rounded" style="width: 18%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-gray-600 dark:text-gray-300">Blood Disorders</span>
+                                    <span class="text-gray-600 dark:text-gray-300">13%</span>
+                                </div>
+                                <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded">
+                                    <div class="h-2 bg-primary rounded" style="width: 13%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-gray-600 dark:text-gray-300">Childbirth</span>
+                                    <span class="text-gray-600 dark:text-gray-300">10%</span>
+                                </div>
+                                <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded">
+                                    <div class="h-2 bg-primary rounded" style="width: 10%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blood Facts -->
+                    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-sm">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Blood Facts</h3>
+                        <div id="bloodFacts" class="space-y-4">
+                            <!-- Facts will be dynamically inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="py-16 bg-gray-50 dark:bg-gray-900">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-12 dark:text-white">Frequently Asked Questions</h2>
+                <div class="max-w-3xl mx-auto space-y-6">
+                    <div class="faq-item bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                        <button class="faq-trigger w-full text-left flex justify-between items-center">
+                            <span class="text-lg font-semibold dark:text-white">Who can donate blood?</span>
+                            <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content mt-4 hidden">
+                            <p class="text-gray-600 dark:text-gray-300">
+                                Generally, you can donate blood if you:
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Are at least 18 years old</li>
+                                    <li>Weigh at least 110 lbs (50 kg)</li>
+                                    <li>Are in good health</li>
+                                    <li>Meet all eligibility requirements</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                        <button class="faq-trigger w-full text-left flex justify-between items-center">
+                            <span class="text-lg font-semibold dark:text-white">How often can I donate blood?</span>
+                            <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content mt-4 hidden">
+                            <p class="text-gray-600 dark:text-gray-300">
+                                The frequency depends on the type of donation:
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Whole blood: Every 56 days</li>
+                                    <li>Platelets: Every 7 days (up to 24 times per year)</li>
+                                    <li>Plasma: Every 28 days</li>
+                                    <li>Double red cells: Every 112 days</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                        <button class="faq-trigger w-full text-left flex justify-between items-center">
+                            <span class="text-lg font-semibold dark:text-white">What should I do before donating blood?</span>
+                            <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content mt-4 hidden">
+                            <p class="text-gray-600 dark:text-gray-300">
+                                To prepare for blood donation:
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Get enough sleep the night before</li>
+                                    <li>Eat a healthy meal within 3 hours of donation</li>
+                                    <li>Drink plenty of water</li>
+                                    <li>Bring a valid ID and list of medications</li>
+                                    <li>Wear comfortable clothing with sleeves that roll up easily</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                        <button class="faq-trigger w-full text-left flex justify-between items-center">
+                            <span class="text-lg font-semibold dark:text-white">How long does the donation process take?</span>
+                            <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content mt-4 hidden">
+                            <p class="text-gray-600 dark:text-gray-300">
+                                The entire process takes about one hour:
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Registration: 10-15 minutes</li>
+                                    <li>Health screening: 10-15 minutes</li>
+                                    <li>Actual donation: 8-10 minutes</li>
+                                    <li>Recovery with refreshments: 10-15 minutes</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="py-16 bg-white dark:bg-gray-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">Testimonials</h2>
+                
+                <div class="relative">
+                    <div class="flex justify-center mb-8">
+                        <div class="space-x-4">
+                            <button class="px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-primary transition-colors testimonial-tab active" data-tab="donors">Donors</button>
+                            <button class="px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-primary transition-colors testimonial-tab" data-tab="recipients">Recipients</button>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-container overflow-hidden relative">
+                        <div class="testimonial-slider flex transition-transform duration-500">
+                            <!-- Donor Testimonials -->
+                            <div class="testimonial-slide w-full flex-shrink-0 px-4">
+                                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-sm">
+                                    <p class="text-gray-600 dark:text-gray-300 mb-6">"I was nervous about donating for the first time, but the detailed information on the LifeFlow website helped me understand the process. The experience was smooth and rewarding."</p>
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+                                        <div class="ml-4">
+                                            <h4 class="font-semibold dark:text-white">Michael Chen</h4>
+                                            <p class="text-gray-500 dark:text-gray-400">First-time Donor</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="testimonial-slide w-full flex-shrink-0 px-4">
+                                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-sm">
+                                    <p class="text-gray-600 dark:text-gray-300 mb-6">"Being a regular donor at LifeFlow has been an incredible journey. The staff is professional, and knowing that my donations help save lives is truly fulfilling."</p>
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+                                        <div class="ml-4">
+                                            <h4 class="font-semibold dark:text-white">Sarah Johnson</h4>
+                                            <p class="text-gray-500 dark:text-gray-400">Regular Donor</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Recipient Testimonials -->
+                            <div class="testimonial-slide w-full flex-shrink-0 px-4">
+                                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-sm">
+                                    <p class="text-gray-600 dark:text-gray-300 mb-6">"The blood donations I received through LifeFlow during my cancer treatment were literally life-saving. I'm forever grateful to all the donors."</p>
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+                                        <div class="ml-4">
+                                            <h4 class="font-semibold dark:text-white">Jessica Martinez</h4>
+                                            <p class="text-gray-500 dark:text-gray-400">Cancer Survivor</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Navigation Arrows -->
+                        <button class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white dark:bg-gray-800 p-2 rounded-full shadow-md hover:bg-gray-100 dark:hover:bg-gray-700" id="prevTestimonial">
+                            <i class="fas fa-chevron-left text-primary"></i>
+                        </button>
+                        <button class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white dark:bg-gray-800 p-2 rounded-full shadow-md hover:bg-gray-100 dark:hover:bg-gray-700" id="nextTestimonial">
+                            <i class="fas fa-chevron-right text-primary"></i>
+                        </button>
+
+                        <!-- Dots Navigation -->
+                        <div class="flex justify-center mt-6 space-x-2">
+                            <button class="w-2 h-2 rounded-full bg-primary"></button>
+                            <button class="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600"></button>
+                            <button class="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-16">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-12 dark:text-white">Contact Us</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
+                        <h3 class="text-2xl font-semibold mb-6 dark:text-white">Get in Touch</h3>
+                        <form class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+                                <input type="text" class="form-input w-full" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                                <input type="email" class="form-input w-full" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message</label>
+                                <textarea class="form-input w-full h-32" required></textarea>
+                            </div>
+                            <button type="submit" class="btn w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary-dark transition-colors">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
+                        <h3 class="text-2xl font-semibold mb-6 dark:text-white">Contact Information</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <i class="fas fa-map-marker-alt text-primary mt-1"></i>
+                                <div class="ml-4">
+                                    <p class="font-medium dark:text-white">Address</p>
+                                    <p class="text-gray-600 dark:text-gray-300">123 Main Street, Suite 100<br>New York, NY 10001</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-phone text-primary mt-1"></i>
+                                <div class="ml-4">
+                                    <p class="font-medium dark:text-white">Phone</p>
+                                    <p class="text-gray-600 dark:text-gray-300">+1 (555) 123-4567</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-envelope text-primary mt-1"></i>
+                                <div class="ml-4">
+                                    <p class="font-medium dark:text-white">Email</p>
+                                    <p class="text-gray-600 dark:text-gray-300">contact@lifeflow.com</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <h4 class="font-medium mb-4 dark:text-white">Follow Us</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="py-16 bg-gray-50 dark:bg-gray-900">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-12 dark:text-white">Educational Resources</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                        <div class="text-primary mb-4">
+                            <i class="fas fa-book-medical text-4xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4 dark:text-white">Blood Donation Basics</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            Learn about the blood donation process, types of donations, and what to expect during your visit.
+                        </p>
+                        <a href="#" class="text-primary hover:text-primary-dark">Learn More →</a>
+                    </div>
+                    <!-- Add more education cards -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-800 mt-20 transition-colors duration-300">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Brand -->
+                <div>
+                    <div class="flex items-center">
+                        <i class="fas fa-tint text-primary text-2xl"></i>
+                        <span class="ml-2 text-xl font-semibold dark:text-white">LifeFlow</span>
+                    </div>
+                    <p class="mt-2 text-gray-600 dark:text-gray-300">Connecting donors with those in need, one donation at a time.</p>
+                    <div class="mt-4 flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-primary"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-primary"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 dark:text-white">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="text-gray-600 dark:text-gray-300 hover:text-primary">About Us</a></li>
+                        <li><a href="#how-it-works" class="text-gray-600 dark:text-gray-300 hover:text-primary">How It Works</a></li>
+                        <li><a href="#why-donate" class="text-gray-600 dark:text-gray-300 hover:text-primary">Why Donate</a></li>
+                        <li><a href="#testimonials" class="text-gray-600 dark:text-gray-300 hover:text-primary">Testimonials</a></li>
+                        <li><a href="#faq" class="text-gray-600 dark:text-gray-300 hover:text-primary">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 dark:text-white">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-primary">Blog</a></li>
+                        <li><a href="#education" class="text-gray-600 dark:text-gray-300 hover:text-primary">Educational Resources</a></li>
+                        <li><a href="#eligibility" class="text-gray-600 dark:text-gray-300 hover:text-primary">Eligibility Criteria</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-primary">Donation Centers</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 dark:text-white">Contact</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-600 dark:text-gray-300">
+                            <i class="fas fa-phone mr-2"></i>
+                            +1 (555) 123-4567
+                        </li>
+                        <li class="flex items-center text-gray-600 dark:text-gray-300">
+                            <i class="fas fa-envelope mr-2"></i>
+                            contact@lifeflow.com
+                        </li>
+                        <li class="flex items-center text-gray-600 dark:text-gray-300">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            123 Main Street, Suite 100<br>
+                            New York, NY 10001
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Footer -->
+            <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-600 dark:text-gray-300">&copy; 2025 LifeFlow. All rights reserved.</p>
+                    <div class="mt-4 md:mt-0 flex space-x-4">
+                        <a href="/privacy" class="text-gray-600 dark:text-gray-300 hover:text-primary">Privacy Policy</a>
+                        <a href="/terms" class="text-gray-600 dark:text-gray-300 hover:text-primary">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Dark Mode Script -->
+    <script>
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const html = document.documentElement;
+
+        // Check for saved theme preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
+        }
+
+        // Toggle dark mode
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        });
+    </script>
+
+    <script>
+        // FAQ Accordion functionality
+        document.querySelectorAll('.faq-trigger').forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const content = trigger.nextElementSibling;
+                const icon = trigger.querySelector('i');
+                
+                // Toggle content visibility
+                content.classList.toggle('hidden');
+                
+                // Rotate icon
+                icon.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+            });
+        });
+
+        // Contact form handling
+        const contactForm = document.querySelector('#contact form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData(contactForm);
+                const data = Object.fromEntries(formData.entries());
+                
+                try {
+                    // Replace with your actual API endpoint
+                    const response = await fetch('/api/contact', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    
+                    if (response.ok) {
+                        alert('Message sent successfully!');
+                        contactForm.reset();
+                    } else {
+                        throw new Error('Failed to send message');
+                    }
+                } catch (error) {
+                    alert('Error sending message. Please try again later.');
+                    console.error('Error:', error);
+                }
+            });
+        }
+    </script>
+
+    <script>
+        // Scroll Animations for How It Works section
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const workSteps = document.querySelectorAll('.how-it-works-step');
+            let delay = 0;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    } else {
+                        entry.target.style.opacity = '0';
+                        entry.target.style.transform = 'translateY(20px)';
+                    }
+                });
+            }, observerOptions);
+
+            workSteps.forEach(step => {
+                step.style.transition = 'all 0.5s ease-out';
+                step.style.opacity = '0';
+                step.style.transform = 'translateY(20px)';
+                step.style.transitionDelay = `${delay}ms`;
+                observer.observe(step);
+                delay += 100; // Increment delay for each step
+            });
+        });
+    </script>
+
+    <script>
+        // Blood Facts Rotation
+        const bloodFacts = [
+            "Every 2 seconds, someone in the U.S. needs blood.",
+            "A single car accident victim can require as many as 100 units of blood.",
+            "Less than 38% of the population is eligible to donate blood.",
+            "Blood cannot be manufactured – it can only come from generous donors.",
+            "One donation can save up to three lives.",
+            "The average adult has about 10 pints of blood in their body.",
+            "Type O-negative blood can be used in transfusions for any blood type.",
+            "Red blood cells must be used within 42 days.",
+            "Platelets must be used within just 5 days.",
+            "The average red blood cell transfusion is 3 pints."
+        ];
+
+        let currentFactIndex = 0;
+        const bloodFactsContainer = document.getElementById('bloodFacts');
+
+        function displayBloodFact() {
+            const fact = bloodFacts[currentFactIndex];
+            bloodFactsContainer.innerHTML = `
+                <div class="flex items-start space-x-3 animate-fade-in">
+                    <span class="text-primary">•</span>
+                    <p class="text-gray-600 dark:text-gray-300">${fact}</p>
+                </div>
+            `;
+            currentFactIndex = (currentFactIndex + 1) % bloodFacts.length;
+        }
+
+        // Initial display
+        displayBloodFact();
+        // Rotate facts every 5 seconds
+        setInterval(displayBloodFact, 5000);
+
+        // Testimonials Slider
+        const slider = document.querySelector('.testimonial-slider');
+        const slides = document.querySelectorAll('.testimonial-slide');
+        const prevButton = document.getElementById('prevTestimonial');
+        const nextButton = document.getElementById('nextTestimonial');
+        let currentSlide = 0;
+        const slideWidth = 100; // percentage
+
+        function updateSlider() {
+            slider.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
+            updateDots();
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlider();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlider();
+        }
+
+        function updateDots() {
+            const dots = document.querySelectorAll('.testimonial-container .w-2');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('bg-primary', index === currentSlide);
+                dot.classList.toggle('bg-gray-300', index !== currentSlide);
+            });
+        }
+
+        prevButton.addEventListener('click', prevSlide);
+        nextButton.addEventListener('click', nextSlide);
+
+        // Auto-advance slides every 5 seconds
+        setInterval(nextSlide, 5000);
+
+        // Testimonial Tabs
+        const tabs = document.querySelectorAll('.testimonial-tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                // Add logic for switching between donor and recipient testimonials
+            });
+        });
+    </script>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Close mobile menu when resizing to desktop view
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) { // 768px is the md breakpoint in Tailwind
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        // If section doesn't exist, scroll to top
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // Auth Modal Functions
+        function showLoginForm() {
+            document.getElementById('authModal').classList.remove('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function showRegisterForm() {
+            document.getElementById('authModal').classList.remove('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+            document.getElementById('loginForm').classList.add('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function switchToLogin() {
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+        }
+
+        function switchToRegister() {
+            document.getElementById('registerForm').classList.remove('hidden');
+            document.getElementById('loginForm').classList.add('hidden');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('authModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAuthModal();
+            }
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeAuthModal();
+            }
+        });
+    </script>
+</body>
+</html> 

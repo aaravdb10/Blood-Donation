@@ -1,110 +1,120 @@
-# 🩸 Blood Donation Management System
+# LifeFlow - Blood Donation Platform 🩸
 
-The **Blood Donation Management System** is a web-based platform designed to connect blood donors with those in need. It allows users to register as donors, book appointments for blood donation, search for donors, request blood, and manage blood donation camps. The system also includes an admin interface for managing donors, camps, and requests.
+## Overview 🌟
+LifeFlow is a modern, user-friendly blood donation platform that connects donors with hospitals and blood banks. Our mission is to make blood donation accessible, efficient, and life-saving.
 
-## ✨ Features
+## Features ✨
+- 🏥 **Dual Registration System**
+  - Donor registration with health questionnaire
+  - Hospital/Blood Bank registration with verification
+- 📱 **Responsive Design**
+  - Mobile-first approach
+  - Dark/Light mode support
+- 🔒 **Secure Authentication**
+  - Email verification
+  - Password protection
+- 📬 **Contact System**
+  - Interactive contact form
+  - Email notification system
+- 📚 **Educational Resources**
+  - Blood donation basics
+  - FAQs section
+- 💉 **Blood Management**
+  - Real-time blood inventory
+  - Urgent blood requests
 
-### 👥 Donor Features
-- 📝 **Register as a Donor**: Users can register and create a profile.
-- 🔐 **Login/Logout**: Secure authentication for donors.
-- 📊 **Dashboard**: View upcoming appointments, donation history, and matching blood requests.
-- 📅 **Book Appointments**: Schedule blood donation appointments at upcoming camps.
-- 🛠️ **Profile Management**: Update personal details like name, phone, and city.
-- ✅ **Eligibility Check**: Ensures donors wait at least 3 months between donations.
+## Tech Stack 🛠️
+- **Frontend:**
+  - HTML5
+  - CSS3 (Tailwind CSS)
+  - JavaScript (Vanilla)
+- **Backend:**
+  - Node.js
+  - Express.js
+- **Email Service:**
+  - Nodemailer
+- **Development Tools:**
+  - npm
+  - nodemon
 
-### 🛠️ Admin Features
-- 🏥 **Manage Blood Camps**: Add, update, and delete blood donation camps.
-- 🔍 **View Donors**: Search and manage registered donors.
-- 🩸 **Manage Blood Requests**: View and update the status of blood requests.
-- 📋 **Appointment Management**: View and update the status of appointments.
+## Getting Started 🚀
 
-### 🌐 General Features
-- 🔎 **Search Donors**: Find eligible donors based on blood group, city, and state.
-- 🆘 **Request Blood**: Submit a blood request and notify matching donors.
-- 📧 **Email Notifications**: Send email confirmations and updates for appointments and requests.
-- 📱 **Responsive Design**: Optimized for both desktop and mobile devices.
+### Prerequisites
+- Node.js (v14 or higher)
+- npm (v6 or higher)
+- Gmail account for email notifications
 
-### 🔧 Backend Features
-- 🗄️ **Database Integration**: MySQL database to store donor, appointment, and camp data.
-- 🔒 **Secure Authentication**: Password hashing and session management for secure login.
-- 🛡️ **CSRF Protection**: Prevents cross-site request forgery attacks.
-- 📤 **Dynamic Email Notifications**: Sends appointment confirmations and updates using PHP mail functions.
-- 🩺 **Eligibility Validation**: Backend logic to ensure donors meet eligibility criteria before booking appointments.
-- 💻 **Admin CLI**: Command-line interface for managing camps, donors, and requests.
-
-## 📂 Project Structure
-
-```
-Blood-Donation/
-├── dashboard/             # Donor dashboard and related pages
-├── includes/              # Common includes for the project
-├── mail/                  # Email-related functionality
-├── admin_cli.php          # Command-line interface for admin actions
-├── camps.php              # Displays upcoming blood donation camps
-├── login.php              # Login page for donors and admins
-├── register.php           # Registration page for new donors
-├── request.php            # Blood request submission page
-├── search.php             # Donor search page
-```
-
-## 🚀 Installation
-
-### Steps to Download and Set Up the Project
-
-1. **📥 Clone the Repository**:
-   - Open a terminal and run the following command:
-     ```bash
-     git clone https://github.com/your-repo/blood-donation.git
-     cd blood-donation
-     ```
-
-2. **🛠️ Set Up the Database**:
-   - Import the `blood_donation.sql` file into your MySQL database.
-   - Update the database credentials in `includes/db.php` to match your local setup.
-
-3. **⚙️ Configure the Web Server**:
-   - Place the project in your web server's root directory (e.g., `htdocs` for XAMPP).
-   - Ensure the server supports PHP and MySQL.
-
-4. **🌐 Test the Application**:
-   - Open your browser and navigate to `http://localhost/blood-donation`.
-
-5. **🔑 Admin Access**:
-   - Use the `admin_cli.php` script to manage camps, donors, and requests:
-     ```bash
-     php admin_cli.php --action=<action_name> [options]
-     ```
-
-## 🧑‍💻 Usage
-
-### 👤 Donor
-1. 📝 Register as a donor on the [Register Page](register.php).
-2. 🔐 Log in to access the dashboard.
-3. 📅 Book appointments, view donation history, and respond to blood requests.
-
-### 🛠️ Admin
-1. Use the `admin_cli.php` script for managing donors, camps, and requests:
+### Installation 📥
+1. Clone the repository
    ```bash
-   php admin_cli.php --action=<action_name> [options]
-   ```
-   Example:
-   ```bash
-   php admin_cli.php --action=add_camp --title="Camp Title" --location="Location" --city="City" --state="State" --date="YYYY-MM-DD"
+   git clone https://github.com/yourusername/blood-donation.git
+   cd blood-donation
    ```
 
-## 🛠️ Technologies Used
+2. Install dependencies
+   ```bash
+   npm install
+   ```
 
-- 🎨 **Frontend**: HTML, CSS (TailwindCSS), JavaScript
-- 🖥️ **Backend**: PHP
-- 🗄️ **Database**: MySQL
-- 📧 **Email**: PHP `mail()` function
+3. Configure environment variables
+   - Copy `.env.example` to `.env`
+   - Update the email and server configurations
 
-## 📜 License
+4. Start the development server
+   ```bash
+   npm run dev
+   ```
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+5. Visit `http://localhost:3000` in your browser
 
-## 📞 Contact
+## Project Structure 📁
+```
+blood-donation/
+├── public/
+│   ├── css/
+│   │   └── style.css
+│   │
+│   ├── index.html
+│   └── register.html
+├── api/
+│   └── contact.js
+├── server.js
+├── .env
+└── package.json
+```
 
-For any inquiries or support, please contact:
-- 📧 Email: contact@blooddonate.org
-- 📞 Phone: +1-800-BLOOD-HELP
+## Features in Detail 🔍
+
+### 🩸 Blood Donation System
+- Registration for donors and hospitals
+- Blood type matching
+- Donation history tracking
+
+### 🌙 Dark Mode
+- System preference detection
+- Manual toggle option
+- Smooth transitions
+
+### 📱 Responsive Design
+- Mobile-first approach
+- Fluid layouts
+- Optimized images
+
+### 📬 Contact System
+- Form validation
+- Email notifications
+- Response tracking
+
+## Contributing 🤝
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+## License 📄
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments 💖
+- Icons by Font Awesome
+- Styling by Tailwind CSS
+- All our amazing contributors
+
+## Support 💪
+If you find this project helpful, please give it a ⭐️!
