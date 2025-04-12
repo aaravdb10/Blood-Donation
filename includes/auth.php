@@ -122,12 +122,18 @@ function is_donor_logged_in() {
     return isset($_SESSION['donor_id']);
 }
 
+<<<<<<< HEAD
 
 function is_admin_logged_in() {
     return isset($_SESSION['admin_id']);
 }
 
 
+=======
+/**
+ * Redirect to login if user is not logged in as donor
+ */
+>>>>>>> d568b944ac84451f268c25872e79ef0a9230ac2f
 function require_donor_login() {
     if (!is_donor_logged_in()) {
         $_SESSION['error'] = "You must be logged in to view that page.";
@@ -136,6 +142,7 @@ function require_donor_login() {
     }
 }
 
+<<<<<<< HEAD
 
 function require_admin_login() {
     if (!is_admin_logged_in()) {
@@ -146,6 +153,12 @@ function require_admin_login() {
 }
 
 
+=======
+/**
+ * Generate CSRF token for forms
+ * @return string
+ */
+>>>>>>> d568b944ac84451f268c25872e79ef0a9230ac2f
 function generate_csrf_token() {
     if (!isset($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));

@@ -15,11 +15,15 @@ require_once 'includes/db.php';
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+<<<<<<< HEAD
     
     <!-- Custom Styles -->
     <link rel="stylesheet" href="/includes/styles.css">
     
     <!-- Font Awesome -->
+=======
+    <link rel="stylesheet" href="assets/styles.css">
+>>>>>>> d568b944ac84451f268c25872e79ef0a9230ac2f
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="min-h-screen flex flex-col">
@@ -65,6 +69,7 @@ require_once 'includes/db.php';
                         <?php endif; ?>
                     </div>
                 </div>
+<<<<<<< HEAD
 
                 <!-- Mobile Menu Button -->
                 <button class="md:hidden text-gray-600 hover:text-gray-900" id="mobile-menu-button">
@@ -100,3 +105,41 @@ require_once 'includes/db.php';
 
     <!-- Main Content -->
     <main id="main-content" class="flex-grow">
+=======
+                <div class="hidden md:flex space-x-6">
+                    <a href="/index.php" class="hover:text-red-200 transition">Home</a>
+                    <a href="/search.php" class="hover:text-red-200 transition">Donor Search</a>
+                    <a href="/camps.php" class="hover:text-red-200 transition">Blood Camps</a>
+                    <a href="/request.php" class="hover:text-red-200 transition">Request Blood</a>
+                    <?php if(isset($_SESSION['donor_id'])): ?>
+                        <a href="/dashboard/donor.php" class="hover:text-red-200 transition">My Dashboard</a>
+                        <a href="/logout.php" class="hover:text-red-200 transition">Logout</a>
+                    <?php else: ?>
+                        <a href="/login.php" class="hover:text-red-200 transition">Login</a>
+                        <a href="/register.php" class="hover:text-red-200 transition">Register</a>
+                    <?php endif; ?>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-white focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden hidden pt-4 pb-2">
+                <a href="/index.php" class="block py-2 hover:text-red-200 transition">Home</a>
+                <a href="/search.php" class="block py-2 hover:text-red-200 transition">Donor Search</a>
+                <a href="/camps.php" class="block py-2 hover:text-red-200 transition">Blood Camps</a>
+                <a href="/request.php" class="block py-2 hover:text-red-200 transition">Request Blood</a>
+                <?php if(isset($_SESSION['donor_id'])): ?>
+                    <a href="/dashboard/donor.php" class="block py-2 hover:text-red-200 transition">My Dashboard</a>
+                    <a href="/logout.php" class="block py-2 hover:text-red-200 transition">Logout</a>
+                <?php else: ?>
+                    <a href="/login.php" class="block py-2 hover:text-red-200 transition">Login</a>
+                    <a href="/register.php" class="block py-2 hover:text-red-200 transition">Register</a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </nav>
+    <main class="container mx-auto px-4 py-6">
+>>>>>>> d568b944ac84451f268c25872e79ef0a9230ac2f
