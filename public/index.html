@@ -633,7 +633,9 @@
                                     <li>Are at least 18 years old</li>
                                     <li>Weigh at least 110 lbs (50 kg)</li>
                                     <li>Are in good health</li>
-                                    <li>Meet all eligibility requirements</li>
+                                    <li>Have not donated blood in the last 56 days</li>
+                                    <li>Have not had any recent infections or illnesses</li>
+                                    <li>Are not pregnant or breastfeeding</li>
                                 </ul>
                             </p>
                         </div>
@@ -689,6 +691,44 @@
                                     <li>Health screening: 10-15 minutes</li>
                                     <li>Actual donation: 8-10 minutes</li>
                                     <li>Recovery with refreshments: 10-15 minutes</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                        <button class="faq-trigger w-full text-left flex justify-between items-center">
+                            <span class="text-lg font-semibold dark:text-white">What happens to my blood after donation?</span>
+                            <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content mt-4 hidden">
+                            <p class="text-gray-600 dark:text-gray-300">
+                                After donation, your blood goes through several important steps:
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Testing for infectious diseases</li>
+                                    <li>Separation into components (red cells, plasma, platelets)</li>
+                                    <li>Storage in temperature-controlled conditions</li>
+                                    <li>Distribution to hospitals and medical facilities</li>
+                                    <li>Use in patient care within 42 days</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                        <button class="faq-trigger w-full text-left flex justify-between items-center">
+                            <span class="text-lg font-semibold dark:text-white">Are there any health benefits to donating blood?</span>
+                            <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content mt-4 hidden">
+                            <p class="text-gray-600 dark:text-gray-300">
+                                Yes, donating blood has several health benefits:
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Reduces iron levels in the body, which may lower the risk of heart disease</li>
+                                    <li>Provides a free mini health check-up</li>
+                                    <li>Burns calories (about 650 per donation)</li>
+                                    <li>Stimulates the production of new blood cells</li>
+                                    <li>May improve emotional well-being through the act of helping others</li>
                                 </ul>
                             </p>
                         </div>
@@ -826,16 +866,16 @@
                         <div class="mt-8">
                             <h4 class="font-medium mb-4 dark:text-white">Follow Us</h4>
                             <div class="flex space-x-4">
-                                <a href="#" class="text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary">
+                                <a href="https://facebook.com/lifeflow" class="text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary">
                                     <i class="fab fa-facebook-f"></i>
                                 </a>
-                                <a href="#" class="text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary">
+                                <a href="https://twitter.com/lifeflow" class="text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary">
                                     <i class="fab fa-twitter"></i>
                                 </a>
-                                <a href="#" class="text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary">
+                                <a href="https://instagram.com/lifeflow" class="text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary">
                                     <i class="fab fa-instagram"></i>
                                 </a>
-                                <a href="#" class="text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary">
+                                <a href="https://linkedin.com/company/lifeflow" class="text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary">
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>
                             </div>
@@ -981,11 +1021,16 @@
             contactForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
+                // Show loading state
+                const submitButton = contactForm.querySelector('button[type="submit"]');
+                const originalButtonText = submitButton.innerHTML;
+                submitButton.innerHTML = 'Sending...';
+                submitButton.disabled = true;
+                
                 const formData = new FormData(contactForm);
                 const data = Object.fromEntries(formData.entries());
                 
                 try {
-                    // Replace with your actual API endpoint
                     const response = await fetch('/api/contact', {
                         method: 'POST',
                         headers: {
@@ -994,15 +1039,49 @@
                         body: JSON.stringify(data)
                     });
                     
+                    const result = await response.json();
+                    
                     if (response.ok) {
-                        alert('Message sent successfully!');
+                        // Show success message
+                        const successMessage = document.createElement('div');
+                        successMessage.className = 'mt-4 p-4 bg-green-100 text-green-700 rounded-md';
+                        successMessage.textContent = 'Message sent successfully!';
+                        contactForm.appendChild(successMessage);
+                        
+                        // Reset form
                         contactForm.reset();
+                        
+                        // Remove success message after 3 seconds
+                        setTimeout(() => {
+                            successMessage.remove();
+                        }, 3000);
                     } else {
-                        throw new Error('Failed to send message');
+                        // Show error message
+                        const errorMessage = document.createElement('div');
+                        errorMessage.className = 'mt-4 p-4 bg-red-100 text-red-700 rounded-md';
+                        errorMessage.textContent = result.message || 'Failed to send message. Please try again.';
+                        contactForm.appendChild(errorMessage);
+                        
+                        // Remove error message after 5 seconds
+                        setTimeout(() => {
+                            errorMessage.remove();
+                        }, 5000);
                     }
                 } catch (error) {
-                    alert('Error sending message. Please try again later.');
-                    console.error('Error:', error);
+                    // Show error message
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'mt-4 p-4 bg-red-100 text-red-700 rounded-md';
+                    errorMessage.textContent = 'An error occurred. Please try again later.';
+                    contactForm.appendChild(errorMessage);
+                    
+                    // Remove error message after 5 seconds
+                    setTimeout(() => {
+                        errorMessage.remove();
+                    }, 5000);
+                } finally {
+                    // Reset button state
+                    submitButton.innerHTML = originalButtonText;
+                    submitButton.disabled = false;
                 }
             });
         }
